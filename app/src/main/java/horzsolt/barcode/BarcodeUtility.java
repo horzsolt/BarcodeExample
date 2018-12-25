@@ -129,6 +129,21 @@ public class BarcodeUtility implements EMDKListener, DataListener, Scanner.Statu
         return result;
     }
 
+    private void setScannerConfig() {
+        try {
+            ScannerConfig config = scanner.getConfig();
+            config.decoderParams.ean8.enabled = true;
+            config.decoderParams.ean13.enabled = true;
+            config.decoderParams.code39.enabled = true;
+
+            scanner.setConfig(config);
+        } catch (ScannerException e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(TAG, Log.getStackTraceString(e));
+            }
+        }
+    }
+
     public boolean openScanner() {
 
         scanner = null;
@@ -141,17 +156,6 @@ public class BarcodeUtility implements EMDKListener, DataListener, Scanner.Statu
 
                 scanner = getDefaultScanner();
                 scanner.triggerType = Scanner.TriggerType.HARD;
-
-                try {
-                    ScannerConfig config = scanner.getConfig();
-                    config.decoderParams.ean8.enabled = true;
-                    config.decoderParams.ean13.enabled = true;
-                    config.decoderParams.code39.enabled = true;
-                } catch (ScannerException e) {
-                    if (BuildConfig.DEBUG) {
-                        Log.e(TAG, Log.getStackTraceString(e));
-                    }
-                }
 
                 scanner.addDataListener(this);
                 scanner.addStatusListener(this);
@@ -237,6 +241,12 @@ public class BarcodeUtility implements EMDKListener, DataListener, Scanner.Statu
             case IDLE:
 
                 broadcastStatusChange(statusData.getFriendlyName() + " is enabled and idle...");
+
+                if (state == StatusData.ScannerStates.IDLE) {
+                    if(!scanner.isReadPending()) {
+                        setScannerConfig();
+                    }
+                }
 
                 if (continuousMode) {
                     try {
