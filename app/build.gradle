@@ -5,6 +5,10 @@ android {
     compileSdkVersion 26
     buildToolsVersion '28.0.3'
 
+    dataBinding {
+        enabled = true
+    }
+    
     defaultConfig {
         applicationId "com.symbol.barcodesample1"
         minSdkVersion 21

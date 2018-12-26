@@ -1,6 +1,7 @@
 package horzsolt.barcode;
 
 import android.app.Activity;
+import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -9,23 +10,38 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.symbol.emdk.EMDKManager;
 import com.symbol.emdk.EMDKResults;
 
-public class MainActivity extends Activity implements BarcodeListener, StatusListener {
+import horzsolt.barcode.databinding.MainActivityContract;
+import horzsolt.barcode.databinding.MyClickHandlers;
+import horzsolt.barcode.databinding.SampleData;
+import horzsolt.barcode.databinding.ActivityMainBinding;
+
+public class MainActivity extends Activity implements BarcodeListener, StatusListener, MainActivityContract.View {
 
     private TextView textViewData = null;
     private TextView textViewStatus = null;
 
     private int dataLength = 0;
     private BarcodeUtility barcodeUtility;
+    private MyClickHandlers handlers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        SampleData sampleData = new SampleData("Hamburg");
+
+        handlers = new MyClickHandlers(this, sampleData);
+
+        binding.setData(sampleData);
+        binding.setHandlers(handlers);
+
+        //setContentView(R.layout.activity_main); Must not be called, otherwise binding won't work.
 
         textViewData = (TextView)findViewById(R.id.textViewData);
         textViewStatus = (TextView)findViewById(R.id.textViewStatus);
@@ -99,6 +115,11 @@ public class MainActivity extends Activity implements BarcodeListener, StatusLis
     @Override
     public void statusChanged(String statusData) {
         new AsyncStatusUpdate().execute(statusData);
+    }
+
+    @Override
+    public void showData(SampleData sampleData) {
+        Toast.makeText(this, sampleData.getSampleText(), Toast.LENGTH_SHORT).show();
     }
 
     private class AsyncDataUpdate extends AsyncTask<String, Void, String> {
