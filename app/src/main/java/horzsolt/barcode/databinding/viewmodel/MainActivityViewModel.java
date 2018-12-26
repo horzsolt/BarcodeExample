@@ -1,15 +1,15 @@
-package horzsolt.barcode.databinding;
+package horzsolt.barcode.databinding.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import horzsolt.barcode.BR;
 
-public class SampleData extends BaseObservable {
+public class MainActivityViewModel extends BaseObservable {
 
     private String sampleText;
 
-    public SampleData(String sampleText) {
+    public MainActivityViewModel(String sampleText) {
         this.sampleText = sampleText;
     }
 

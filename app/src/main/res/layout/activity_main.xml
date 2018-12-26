@@ -5,11 +5,11 @@
 
         <variable
             name="data"
-            type="horzsolt.barcode.databinding.SampleData" />
+            type="horzsolt.barcode.databinding.viewmodel.MainActivityViewModel" />
 
         <variable
             name="handlers"
-            type="horzsolt.barcode.databinding.MyClickHandlers" />
+            type="horzsolt.barcode.databinding.handler.MainActivityHandler" />
     </data>
 
     <android.widget.LinearLayout

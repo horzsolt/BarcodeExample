@@ -16,8 +16,8 @@ import com.symbol.emdk.EMDKManager;
 import com.symbol.emdk.EMDKResults;
 
 import horzsolt.barcode.databinding.MainActivityContract;
-import horzsolt.barcode.databinding.MyClickHandlers;
-import horzsolt.barcode.databinding.SampleData;
+import horzsolt.barcode.databinding.handler.MainActivityHandler;
+import horzsolt.barcode.databinding.viewmodel.MainActivityViewModel;
 import horzsolt.barcode.databinding.ActivityMainBinding;
 
 public class MainActivity extends Activity implements BarcodeListener, StatusListener, MainActivityContract.View {
@@ -27,16 +27,16 @@ public class MainActivity extends Activity implements BarcodeListener, StatusLis
 
     private int dataLength = 0;
     private BarcodeUtility barcodeUtility;
-    private MyClickHandlers handlers;
+    private MainActivityHandler handlers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        SampleData sampleData = new SampleData("Hamburg");
+        MainActivityViewModel sampleData = new MainActivityViewModel("Hamburg");
 
-        handlers = new MyClickHandlers(this, sampleData);
+        handlers = new MainActivityHandler(this, sampleData);
 
         binding.setData(sampleData);
         binding.setHandlers(handlers);
@@ -118,7 +118,7 @@ public class MainActivity extends Activity implements BarcodeListener, StatusLis
     }
 
     @Override
-    public void showData(SampleData sampleData) {
+    public void showData(MainActivityViewModel sampleData) {
         Toast.makeText(this, sampleData.getSampleText(), Toast.LENGTH_SHORT).show();
     }
 

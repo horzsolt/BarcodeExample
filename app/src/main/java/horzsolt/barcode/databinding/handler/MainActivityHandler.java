@@ -1,15 +1,17 @@
-package horzsolt.barcode.databinding;
+package horzsolt.barcode.databinding.handler;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
-public class MyClickHandlers {
+import horzsolt.barcode.databinding.viewmodel.MainActivityViewModel;
+
+public class MainActivityHandler {
 
     Context context;
-    SampleData sampleData;
+    MainActivityViewModel sampleData;
 
-    public MyClickHandlers(Context context, SampleData sampleData) {
+    public MainActivityHandler(Context context, MainActivityViewModel sampleData) {
         this.context = context;
         this.sampleData = sampleData;
     }
